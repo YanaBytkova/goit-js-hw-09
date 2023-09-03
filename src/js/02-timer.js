@@ -12,9 +12,10 @@ const infoMinute = document.querySelector('[data-minutes]');
 const infoSecond = document.querySelector('[data-seconds]');
 const btnStart = document.querySelector('[data-start]');
 const inputDate = document.querySelector('#datetime-picker');
+const stopTimer = {days: 0, hours: 0, minutes: 0, seconds: 0};
 
 btnStart.disabled = true;
-errorMessage = "Please choose a date in the future";
+let errorMessage = "Please choose a date in the future"; 
 
 const chooseDate = () => {
     const options = {
@@ -30,11 +31,10 @@ const chooseDate = () => {
     const currentDate = new Date();
     const choosingDate = new Date(yourDate.selectedDates);
     const ms = choosingDate - currentDate;
-    console.log(ms);
+
     return ms;
     timerId = setInterval(() => {
-        // console.log(yourDate.selectedDates);
-        // console.log(currentDate);
+
         if (yourDate.selectedDates.length > 0) {
             clearInterval(timerId);}
 
@@ -58,7 +58,7 @@ const chooseDate = () => {
           btnStart.disabled = false;
           convertMs(ms);
       }, error => {
-        window.alert(error);
+        Notiflix.Notify.failure(error);
       });
 
       function convertMs(ms) {
@@ -77,16 +77,31 @@ const chooseDate = () => {
         // Remaining seconds
         const seconds = Math.floor((((ms % day) % hour) % minute) / second);
         // console.log("result:", days, hours, minutes, seconds);
-        infoDay.textContent = days;
-        infoHour.textContent = hours;
-        infoMinute.textContent = minutes;
-        infoSecond.textContent = seconds;
+
+        
+        // console.log(days.padStart(2, "0"));
         return { days, hours, minutes, seconds };
       }
+
+      function addLeadingZero(value) {
+        infoDay.textContent = value.days.toString().padStart(2, "0");
+        infoHour.textContent = value.hours.toString().padStart(2, "0");
+        infoMinute.textContent = value.minutes.toString().padStart(2, "0");
+        infoSecond.textContent = value.seconds.toString().padStart(2, "0");
+      }
+
     const startTimeCounter = () => {
-    setInterval(() => {
-    convertMs(chooseDate());
-    }, 1000);
+      inputDate.disabled = true;
+        
+        const intervalId = setInterval(() => {
+          addLeadingZero(convertMs(chooseDate()));
+          // console.log((convertMs(chooseDate())));
+          if ((convertMs(chooseDate())) === stopTimer) {
+            clearInterval(intarvalId);
+            console.log(`Timer has stopped!`);
+          }
+          }, 1000);
+    
     }   
 
  btnStart.addEventListener('click', startTimeCounter);
