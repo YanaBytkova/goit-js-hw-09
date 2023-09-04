@@ -36,6 +36,7 @@ function handleSubmit(event) {
   console.log("firstDelay= ", delay.value, "step = ", step.value, "amount = ", amount.value) ;
   if (step.value < 0 || delay.value < 0 || amount.value < 0)  {
      Notify.failure("Please fill > 0 in all the fields!");
+     return;
   }
       
 
