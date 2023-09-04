@@ -34,19 +34,19 @@ function handleSubmit(event) {
   const { delay, step, amount }
   = event.currentTarget.elements;
   console.log("firstDelay= ", delay.value, "step = ", step.value, "amount = ", amount.value) ;
-  if (step.value === "" || delay.value === "" || amount.value === "") {
-     return alert("Please fill in all the fields!");
+  if (step.value < 0 || delay.value < 0 || amount.value < 0)  {
+     Notify.failure("Please fill > 0 in all the fields!");
   }
       
 
             for (let i = 1; i <= amount.value; i++) {
-              let position = i;
+              const position = i;
               const delayStep = Number(delay.value) + Number((i - 1)*step.value);
               createPromise(position, delayStep)
-              .then((position, delay) => {
+              .then((i, delay) => {
                 Notiflix.Notify.success(`✅ Fulfilled promise ${position} in ${delayStep}ms`);
               })
-              .catch((position, delay) => {
+              .catch((i, delay) => {
                 Notiflix.Notify.failure(`❌ Rejected promise ${position} in ${delayStep}ms`);
               }); 
               
