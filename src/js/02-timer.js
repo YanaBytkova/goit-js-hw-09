@@ -34,11 +34,11 @@ flatpickr(inputDate, {
 
 const startTimeCounter = {
   start() {
-    intervalId = setInterval(() => {
+   let intervalId = setInterval(() => {
       startBtn.disabled = true;
       inputDate.disabled = true;
       flatpickr(inputDate).disabled = true;
-      currentDate = Date.now();
+      const currentDate = Date.now();
       const ms = selectedDate - currentDate;
 
       if (ms <= 0) {
