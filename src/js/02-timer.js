@@ -10,7 +10,9 @@ const infoSecond = document.querySelector('[data-seconds]');
 
 const inputDate = document.querySelector('#datetime-picker');
 const startBtn = document.querySelector('[data-start]');
-
+let currentDate;
+let selectedDates;
+let selectedDate;
 flatpickr(inputDate, {
   enableTime: true,
   time_24hr: true,
@@ -24,8 +26,9 @@ flatpickr(inputDate, {
         'Click on start!');
       startBtn.disabled = false;
       const setTimer = () => {
-       let selectedDate = selectedDates[0].getTime();
+       selectedDate = selectedDates[0].getTime();
         startTimeCounter.start();
+        return selectedDate;
       };
       startBtn.addEventListener('click', setTimer);
     }
@@ -38,8 +41,8 @@ const startTimeCounter = {
       startBtn.disabled = true;
       inputDate.disabled = true;
       flatpickr(inputDate).disabled = true;
-      const currentDate = Date.now();
-      const ms = selectedDate - currentDate;
+      let currentDate = Date.now();
+      const ms =  selectedDate - currentDate;
 
       if (ms <= 0) {
         startTimeCounter.stop();
