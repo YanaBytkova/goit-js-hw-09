@@ -10,7 +10,7 @@ const infoSecond = document.querySelector('[data-seconds]');
 
 const inputDate = document.querySelector('#datetime-picker');
 const startBtn = document.querySelector('[data-start]');
-
+let selectedDates = '';
 flatpickr(inputDate, {
   enableTime: true,
   time_24hr: true,
